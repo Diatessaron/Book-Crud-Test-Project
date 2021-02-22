@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      port: 0
+      database: bookshelf
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.fazlyev.bookcrudproject.mongock.changelog
