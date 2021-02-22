@@ -18,13 +18,18 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    @GetMapping("/bookshelf/api/genres/{name}")
+    @GetMapping("/api/genres/{name}")
     public ResponseEntity<Genre> findByName(@PathVariable String name) {
         return ResponseEntity.of(genreService.findByName(name));
     }
 
-    @GetMapping("/bookshelf/api/genres")
+    @GetMapping("/api/genres")
     public ResponseEntity<List<Genre>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(genreService.findAll());
+        final List<Genre> genres = genreService.findAll();
+
+        if (genres.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(genres);
     }
 }

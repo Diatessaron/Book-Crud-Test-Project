@@ -17,22 +17,37 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/bookshelf/api/books/title/{title}")
+    @GetMapping("/api/books/title/{title}")
     public ResponseEntity<List<Book>> findByTitle(@PathVariable String title) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findByTitle(title));
+        final List<Book> books = bookService.findByTitle(title);
+
+        if(books.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @GetMapping("/bookshelf/api/books/author/{authorName}")
+    @GetMapping("/api/books/author/{authorName}")
     public ResponseEntity<List<Book>> findByAuthorName(@PathVariable String authorName) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findByAuthor_Name(authorName));
+        final List<Book> books = bookService.findByAuthor_Name(authorName);
+
+        if(books.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @GetMapping("/bookshelf/api/books/genre/{genreName}")
+    @GetMapping("/api/books/genre/{genreName}")
     public ResponseEntity<List<Book>> findByGenreName(@PathVariable String genreName) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findByGenre_Name(genreName));
+        final List<Book> books = bookService.findByGenre_Name(genreName);
+        
+        if(books.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @GetMapping("/bookshelf/api/books/read")
+    @GetMapping("/api/books/read")
     public ResponseEntity<List<Book>> findByReadParameter(@RequestParam Boolean isRead) {
         if (isRead)
             return ResponseEntity.status(HttpStatus.OK).body(bookService.findByReadIsTrue());
@@ -40,17 +55,22 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.OK).body(bookService.findByReadIsFalse());
     }
 
-    @GetMapping("/bookshelf/api/books/liked")
+    @GetMapping("/api/books/liked")
     public ResponseEntity<List<Book>> findByLikedIsTrue() {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.findByLikedIsTrue());
     }
 
-    @GetMapping("/bookshelf/api/books")
+    @GetMapping("/api/books")
     public ResponseEntity<List<Book>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
+        final List<Book> books = bookService.findAll();
+
+        if(books.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
-    @PutMapping("/bookshelf/api/books/change/like")
+    @PutMapping("/api/books/change/like")
     public ResponseEntity<Void> setIsLiked(@RequestBody BookRequest bookRequest) {
         if (bookService.setLiked(bookRequest))
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -58,7 +78,7 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/bookshelf/api/books/change/read")
+    @PutMapping("/api/books/change/read")
     public ResponseEntity<Void> setIsRead(@RequestBody BookRequest bookRequest) {
         if (bookService.setRead(bookRequest))
             return ResponseEntity.status(HttpStatus.OK).build();

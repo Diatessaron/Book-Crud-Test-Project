@@ -18,13 +18,23 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping("/bookshelf/api/authors/{name}")
+    @GetMapping("/api/authors/{name}")
     public ResponseEntity<List<Author>> findByName(@PathVariable String name){
-        return ResponseEntity.status(HttpStatus.OK).body(authorService.findByName(name));
+        final List<Author> authors = authorService.findByName(name);
+
+        if(authors.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(authors);
     }
 
-    @GetMapping("/bookshelf/api/authors")
+    @GetMapping("/api/authors")
     public ResponseEntity<List<Author>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(authorService.findAll());
+        final List<Author> authorsAll = authorService.findAll();
+
+        if(authorsAll.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(authorsAll);
     }
 }

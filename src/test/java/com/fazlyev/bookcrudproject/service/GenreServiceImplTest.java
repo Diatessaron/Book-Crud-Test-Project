@@ -39,11 +39,6 @@ class GenreServiceImplTest {
         verify(genreRepository, times(1)).findByName(expectedNovel.getName());
     }
 
-    @Test
-    void shouldThrowExceptionAfterGetGenreByNameMethodInvocation() {
-        assertThrows(IllegalArgumentException.class, () -> service.findByName("genre"));
-    }
-
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     void shouldReturnCorrectListOfGenre() {
