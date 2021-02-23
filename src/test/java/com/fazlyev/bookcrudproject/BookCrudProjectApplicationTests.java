@@ -8,6 +8,6 @@ class BookCrudProjectApplicationTests {
 
     @Test
     void contextLoads() {
-    }
 
+    }
 }
